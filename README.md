@@ -4,4 +4,4 @@
 
 Prof. Newarney T. Costa
 
-Jurcelino Castilho Dos Santos Neto, Raquel Roza Coelho
+ALUNOS: Jurcelino Castilho Dos Santos Neto e Raquel Roza Coelho
