@@ -1,0 +1,65 @@
+================================================================================
+RESUMO DA ANALISE DE GRAFOS - MALHA SAMU 192 (IPORA - GO)
+================================================================================
+Diretorio Analisado      : [VAULT]
+Numero de Vertices (|V|) : 34
+Numero de Arestas  (|E|) : 53
+Grafo Orientado          : Nao (Nao-orientado / Bidirecional)
+Grau Minimo              : 1
+Grau Maximo              : 5
+Grau Medio               : 3.12
+Componentes Conexos      : 1
+--------------------------------------------------------------------------------
+RELATORIO DE INTEGRIDADE DE LINKS:
+  [OK] Nenhum link quebrado detectado (100% de integridade referencial).
+--------------------------------------------------------------------------------
+VERIFICACAO DO ALGORITMO DA EQUIPE (DIJKSTRA vs REFERENCIA):
+  - Grafo de Teste 1 (5 vertices, resposta conhecida de livro): OK
+  - Grafo de Teste 2 (4 vertices, grafo diamante): OK
+  - Grafo do Vault (Origem 'Iporá' vs NetworkX): OK
+Tempo de Execucao do Dijkstra da Equipe: 0.0828 ms
+--------------------------------------------------------------------------------
+ROTAS DE DESPACHO USA-01 (CODIGO VERMELHO) A PARTIR DE 'Iporá':
+Municipio Destino      | Distancia Calculada  | Status SAMU Local   
+--------------------------------------------------------------------------------
+Iporá                  |    0.0 km             | Base Central (USA + USB)
+Amorinópolis           |   28.0 km             | Sem Base Física     
+Israelândia            |   28.0 km             | Sem Base Física     
+Jaupaci                |   44.0 km             | Sem Base Física     
+Fazenda Nova           |   72.0 km             | Base Descentralizada (USB)
+Novo Brasil            |   96.0 km             | Sem Base Física     
+Córrego do Ouro        |  104.0 km             | Sem Base Física     
+Ivolândia              |   54.0 km             | Base Descentralizada (USB)
+Moiporá                |   73.0 km             | Sem Base Física     
+Cachoeira de Goiás     |  109.0 km             | Base com USB Contemplada
+--------------------------------------------------------------------------------
+DETALHAMENTO DOS CAMINHOS MINIMOS ATE CADA MUNICIPIO:
+
+[Destino: Amorinópolis | Distancia: 28.0 km]
+  Rota: Iporá -> Entroncamento GO-060 x GO-174 (Iporá Sul) -> Trecho GO-174 - Iporá a Amorinópolis (27 km) -> Amorinópolis
+
+[Destino: Israelândia | Distancia: 28.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-060 - Entroncamento GO-320 a Israelândia (12 km) -> Israelândia
+
+[Destino: Jaupaci | Distancia: 44.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-060 - Entroncamento GO-320 a Israelândia (12 km) -> Entroncamento GO-060 x GO-173 (Trevo Israelândia) -> Trecho GO-173 - Israelândia a Jaupaci (16 km) -> Jaupaci
+
+[Destino: Fazenda Nova | Distancia: 72.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-060 - Entroncamento GO-320 a Israelândia (12 km) -> Entroncamento GO-060 x GO-173 (Trevo Israelândia) -> Trecho GO-173 - Israelândia a Jaupaci (16 km) -> Entroncamento GO-173 x GO-418 (Bifurcação Jaupaci) -> Trecho GO-173 - Jaupaci a Fazenda Nova (28 km) -> Fazenda Nova
+
+[Destino: Novo Brasil | Distancia: 96.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-060 - Entroncamento GO-320 a Israelândia (12 km) -> Entroncamento GO-060 x GO-173 (Trevo Israelândia) -> Trecho GO-173 - Israelândia a Jaupaci (16 km) -> Entroncamento GO-173 x GO-418 (Bifurcação Jaupaci) -> Trecho GO-173 - Jaupaci a Fazenda Nova (28 km) -> Entroncamento GO-326 x GO-173 (Trevo Fazenda Nova) -> Trecho GO-326 - Fazenda Nova a Novo Brasil (24 km) -> Novo Brasil
+
+[Destino: Córrego do Ouro | Distancia: 104.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-060 - Entroncamento GO-320 a Israelândia (12 km) -> Entroncamento GO-060 x GO-173 (Trevo Israelândia) -> Trecho GO-173 - Israelândia a Jaupaci (16 km) -> Entroncamento GO-173 x GO-418 (Bifurcação Jaupaci) -> Trecho GO-173 - Jaupaci a Fazenda Nova (28 km) -> Entroncamento GO-326 x GO-173 (Trevo Fazenda Nova) -> Trecho GO-326 - Fazenda Nova ao Trevo GO-164 (14 km) -> Entroncamento GO-326 x GO-164 (Conexão Novo Brasil - Córrego do Ouro) -> Trecho GO-164 - Trevo GO-326 a Córrego do Ouro (18 km) -> Córrego do Ouro
+
+[Destino: Ivolândia | Distancia: 54.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-320 - Entroncamento GO-060 a Ivolândia (38 km) -> Ivolândia
+
+[Destino: Moiporá | Distancia: 73.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-320 - Entroncamento GO-060 a Ivolândia (38 km) -> Entroncamento GO-320 x GO-444 (Trevo Ivolândia) -> Trecho GO-444 - Ivolândia a Moiporá (19 km) -> Moiporá
+
+[Destino: Cachoeira de Goiás | Distancia: 109.0 km]
+  Rota: Iporá -> Trecho GO-060 - Iporá ao Entroncamento GO-320 (16 km) -> Entroncamento GO-060 x GO-320 (Acesso Ivolândia) -> Trecho GO-320 - Entroncamento GO-060 a Ivolândia (38 km) -> Entroncamento GO-320 x GO-444 (Trevo Ivolândia) -> Trecho GO-444 - Ivolândia a Moiporá (19 km) -> Entroncamento GO-444 x GO-164 (Trevo Moiporá - Cachoeira de Goiás) -> Trecho GO-444 - Moiporá a Cachoeira de Goiás (36 km) -> Cachoeira de Goiás
+
+================================================================================
