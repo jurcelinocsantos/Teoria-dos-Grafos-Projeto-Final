@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teoria dos Grafos - SAMU 192 Iporá (GO)</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =====================================================================
+       FUNDO AMBIENTE NAS CORES DO SAMU (SEM ROXO)
+       ===================================================================== -->
+  <div class="background-ambient">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- =====================================================================
+       HELICÓPTERO INTERATIVO POUSANDO DO CÉU (RESGATE AEROMÉDICO)
+       ===================================================================== -->
+  <div class="helicopter-overlay" id="helicopter-overlay">
+    <div class="helicopter-flight-box">
+      <div class="helicopter-svg-container">
+        <svg viewBox="0 0 280 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Pás do Rotor Girando -->
+          <g class="heli-rotor">
+            <line x1="30" y1="38" x2="250" y2="38" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="140" cy="38" r="5" fill="#ef4444"/>
+          </g>
+          <rect x="137" y="38" width="6" height="12" fill="#334155"/>
+          <!-- Corpo da Aeronave -->
+          <path d="M70 70 C70 50 100 48 165 48 C195 48 215 60 215 78 C215 95 185 98 120 98 C80 98 70 88 70 70 Z" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+          <path d="M70 72 H214 V84 H70 Z" fill="#ef4444"/>
+          <path d="M142 66 H148 V88 H142 Z M134 74 H156 V80 H134 Z" fill="#ffffff"/>
+          <path d="M175 52 C195 54 212 64 212 76 H175 Z" fill="#38bdf8" opacity="0.9"/>
+          <!-- Cauda -->
+          <path d="M72 66 L20 54 L18 60 L70 74 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+          <rect x="18" y="44" width="4" height="24" fill="#ef4444"/>
+          <g class="heli-tail-rotor">
+            <line x1="12" y1="52" x2="32" y2="52" stroke="#cbd5e1" stroke-width="2.5"/>
+          </g>
+          <!-- Esquis -->
+          <rect x="90" y="108" width="100" height="4" rx="2" fill="#0f172a"/>
+          <line x1="110" y1="98" x2="110" y2="108" stroke="#0f172a" stroke-width="3"/>
+          <line x1="170" y1="98" x2="170" y2="108" stroke="#0f172a" stroke-width="3"/>
+        </svg>
+      </div>
+
+      <div class="heli-spotlight"></div>
+
+      <div class="heli-banner">
+        <h3>🚁 RESGATE AEROMÉDICO SAMU 192</h3>
+        <p>Aeronave mobilizada para emergência crítica em municípios a mais de 90 km de Iporá.</p>
+        <button class="btn-heli-close" id="btn-heli-close">Decolar / Fechar ✖</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       VIATURA LATERAL NA PISTA (CLIQUE ACENDE O GIROFLEX E TOCA ALERTA)
+       ===================================================================== -->
+  <div class="vertical-road-track"></div>
+  <div class="page-switch-ambulance" id="page-switch-ambulance" title="Clique para ligar a sirene da viatura!">
+    <div class="beacon-strobe-left"></div>
+    <div class="beacon-strobe-right"></div>
+    
+    <svg viewBox="0 0 36 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="8" width="26" height="38" rx="5" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+      <rect x="8" y="12" width="20" height="7" rx="2" fill="#38bdf8"/>
+      <rect x="5" y="23" width="26" height="8" fill="#ef4444"/>
+      <path d="M16 21 H20 V33 H16 Z M12 25 H24 V29 H12 Z" fill="#ffffff"/>
+      <rect x="2" y="12" width="3" height="9" rx="1.5" fill="#0f172a"/>
+      <rect x="31" y="12" width="3" height="9" rx="1.5" fill="#0f172a"/>
+      <rect x="2" y="32" width="3" height="9" rx="1.5" fill="#0f172a"/>
+      <rect x="31" y="32" width="3" height="9" rx="1.5" fill="#0f172a"/>
+    </svg>
+    <div class="siren-tooltip">🚨 Clique: Ligar Sirene!</div>
+  </div>
+
+  <!-- Ambulância Lenta Cruzando a Tela (Slide 2) -->
+  <div class="ambulance-flyby-container" id="ambulance-flyby-container">
+    <div class="flying-ambulance" id="flying-ambulance">
+      <div class="ambulance-beacon" id="flyby-beacon" style="background-color: #ef4444; color: #ef4444;"></div>
+      <svg class="ambulance-svg" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="15" width="100" height="32" rx="6" fill="#f8fafc" stroke="#1e293b" stroke-width="2"/>
+        <path d="M75 15 L95 24 L105 24 L105 47 L75 47 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="2"/>
+        <rect x="76" y="20" width="16" height="12" rx="2" fill="#38bdf8"/>
+        <rect x="5" y="27" width="100" height="8" fill="#ef4444"/>
+        <path d="M42 21 H48 V39 H42 Z M36 27 H54 V33 H36 Z" fill="#ffffff"/>
+        <circle cx="28" cy="47" r="10" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+        <circle cx="28" cy="47" r="4" fill="#94a3b8"/>
+        <circle cx="85" cy="47" r="10" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+        <circle cx="85" cy="47" r="4" fill="#94a3b8"/>
+      </svg>
+      <div class="ambulance-callout" id="flyby-callout">CÓDIGO 3: VERMELHO (USA-01)</div>
+    </div>
+  </div>
+
+  <!-- Header Persistente: Logo do IF Goiano Campus Iporá e Numeração -->
+  <header class="deck-header">
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="top-bar">
+      <div class="brand-group">
+        <span class="brand-badge">🚑 SAMU 192</span>
+        <span class="brand-title">Teoria dos Grafos</span>
+        <span class="header-page-number" id="header-page-number">Página 1 de 6</span>
+      </div>
+
+      <!-- Símbolo Oficial do IF Goiano Campus Iporá no Canto Superior Direito -->
+      <div class="if-goiano-logo" title="Instituto Federal Goiano - Campus Iporá">
+        <div class="if-symbol">
+          <div class="if-dot red"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+          <div class="if-dot"></div>
+        </div>
+        <div class="if-text">
+          <span class="if-title">INSTITUTO FEDERAL</span>
+          <span class="if-subtitle">Goiano | Campus Iporá</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Slide Deck Viewport (Layout Espaçoso em Tela Cheia) -->
+  <main class="slides-container">
+
+    <!-- SLIDE 1: Capa (Apenas Título e Nome dos 2 Alunos) -->
+    <section class="slide active" id="slide-1">
+      <div class="slide-inner">
+        <h1 class="slide-title" style="font-size: 3.4rem; max-width: 950px; margin-bottom: 1rem;">
+          Malha de Atendimento SAMU 192
+        </h1>
+        <p class="slide-subtitle" style="font-size: 1.25rem; color: #38bdf8; margin-bottom: 1rem;">
+          Teoria dos Grafos na Microrregião de Iporá (GO)
+        </p>
+
+        <!-- Apenas o nome dos 2 alunos pesquisadores -->
+        <div class="slide1-authors-grid">
+          <div class="student-card">
+            <div class="student-avatar">👨‍💻</div>
+            <div style="text-align: left;">
+              <div class="student-name">Jurcelino Castilho Dos Santos Neto</div>
+              <div class="student-tag">Aluno Pesquisador</div>
+            </div>
+          </div>
+
+          <div class="student-card">
+            <div class="student-avatar">👩‍💻</div>
+            <div style="text-align: left;">
+              <div class="student-name">Raquel Roza Coelho</div>
+              <div class="student-tag">Aluna Pesquisadora</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 3.2rem;">
+          <button class="btn-fetch" onclick="nextSlide()" style="font-size: 1.05rem; padding: 0.8rem 2.4rem;">
+            Iniciar Apresentação ➜
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Triagem & Gargalo Operacional (Clique para Revelar) -->
+    <section class="slide" id="slide-2">
+      <div class="slide-inner">
+        <h2 class="slide-title">Triagem Médica & O Gargalo da UTI Móvel</h2>
+        <p class="slide-subtitle">
+          Clique nos códigos para acionar a ambulância correspondente e no quadro para apresentar o gargalo operacional.
+        </p>
+
+        <div class="slide2-grid">
+          <!-- Coluna 1: Códigos de Triagem Interativos -->
+          <div class="codes-stack">
+            <button class="code-btn verde" data-code="verde">
+              <div class="code-badge-circle">1</div>
+              <div>
+                <div style="font-weight: 700; color: #34d399; font-size: 1.05rem;">Código 1 — Verde</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Leve / Pouco urgente. Suporte ambulatorial.</div>
+              </div>
+            </button>
+
+            <button class="code-btn amarelo" data-code="amarelo">
+              <div class="code-badge-circle">2</div>
+              <div>
+                <div style="font-weight: 700; color: #fbbf24; font-size: 1.05rem;">Código 2 — Amarelo</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Urgência moderada. Despacho de USB.</div>
+              </div>
+            </button>
+
+            <button class="code-btn vermelho" data-code="vermelho">
+              <div class="code-badge-circle">3</div>
+              <div>
+                <div style="font-weight: 700; color: #f87171; font-size: 1.05rem;">Código 3 — Vermelho</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Emergência crítica. Mobiliza a USA-01 de Iporá!</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- Coluna 2: Cartão de Gargalo com Clique para Apresentar -->
+          <div class="click-reveal-box" id="reveal-gargalo">
+            <span class="reveal-hint-badge">👉 Clique para Apresentar</span>
+            <div style="display: flex; align-items: center; gap: 0.6rem; margin-top: 0.2rem;">
+              <span style="font-size: 1.4rem;">⚠️</span>
+              <h3 style="font-size: 1.2rem; color: #fff;">O Gargalo da UTI Móvel Centralizada</h3>
+            </div>
+
+            <div class="reveal-content">
+              <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.8rem;">
+                Apenas <strong>Iporá</strong> sedia a <strong>USA-01 (UTI Móvel)</strong> para atender os 10 municípios da região em chamados de risco iminente de morte.
+              </p>
+
+              <div class="metrics-row">
+                <div class="metric-pill">
+                  <div class="metric-pill-num">|V| = 34</div>
+                  <div class="metric-pill-label">Cidades e Trevos</div>
+                </div>
+                <div class="metric-pill">
+                  <div class="metric-pill-num">|E| = 53</div>
+                  <div class="metric-pill-label">Arestas Viárias (km)</div>
+                </div>
+              </div>
+
+              <div style="margin-top: 0.8rem; font-size: 0.8rem; color: #cbd5e1;">
+                🛣️ Rodovias: GO-060, GO-174, GO-320, GO-173, GO-326, GO-164 e GO-444.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Simulador do Grafo & Despacho em Tempo Real -->
+    <section class="slide" id="slide-3">
+      <div class="slide-inner">
+        <h2 class="slide-title">Simulador de Despacho & Malha Viária</h2>
+        <p class="slide-subtitle" style="margin-bottom: 1rem;">
+          Clique em uma cidade ou selecione no menu: a ambulância sai de Iporá e percorre o menor caminho na rodovia.
+        </p>
+
+        <div class="graph-simulator-wrapper">
+          <!-- Canvas Interativo -->
+          <div class="canvas-container">
+            <canvas id="graphCanvas"></canvas>
+            <div class="canvas-overlay-tip">💡 Clique nos nós para despachar a ambulância</div>
+          </div>
+
+          <!-- Controles e HUD da Central de Despacho -->
+          <div class="simulator-controls">
+            <div class="city-select-box">
+              <label for="select-city" style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 0.4rem;">
+                Município Destino:
+              </label>
+              <select id="select-city" class="custom-select">
+                <option value="Amorinópolis">Amorinópolis (28.0 km)</option>
+                <option value="Israelândia">Israelândia (28.0 km)</option>
+                <option value="Jaupaci">Jaupaci (44.0 km)</option>
+                <option value="Ivolândia">Ivolândia (54.0 km)</option>
+                <option value="Fazenda Nova">Fazenda Nova (72.0 km)</option>
+                <option value="Moiporá">Moiporá (73.0 km)</option>
+                <option value="Novo Brasil">Novo Brasil (96.0 km)</option>
+                <option value="Córrego do Ouro">Córrego do Ouro (104.0 km)</option>
+                <option value="Cachoeira de Goiás">Cachoeira de Goiás (109.0 km)</option>
+              </select>
+            </div>
+
+            <!-- Dados da Rota Selecionada -->
+            <div class="route-result-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span id="res-risk" class="badge-risk baixo">Baixo Risco</span>
+                  <span style="font-size: 0.78rem; color: var(--text-muted);" id="res-status">Sem Base Física</span>
+                </div>
+                <h3 id="res-city-name" style="font-size: 1.25rem; margin-top: 0.3rem; color: #fff;">Amorinópolis</h3>
+                <div class="stat-huge" id="res-dist">28.0 km</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">
+                  ⏱️ Tempo a 80 km/h: <strong id="res-time" style="color: #fff;">21 min</strong>
+                </div>
+              </div>
+
+              <!-- HUD Rádio Despacho -->
+              <div class="dispatch-hud">
+                <div class="hud-item">
+                  <span style="color: var(--text-muted);">🚦 Trânsito:</span>
+                  <span id="hud-transito">Fluxo livre na GO-174</span>
+                </div>
+                <div class="hud-item">
+                  <span style="color: var(--text-muted);">🌤️ Clima:</span>
+                  <span id="hud-clima">Pista seca</span>
+                </div>
+                <div class="hud-item" style="color: #f87171; font-weight: 600;">
+                  <span style="color: var(--text-muted);">📡 Rádio:</span>
+                  <span id="hud-radio">Despacho USA-01 ativo</span>
+                </div>
+              </div>
+
+              <div style="border-top: 1px solid var(--border-color); padding-top: 0.5rem; margin-top: 0.4rem;">
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Trajeto:</div>
+                <div id="res-path" style="font-size: 0.75rem; color: #cbd5e1; line-height: 1.3;">Iporá ➜ Entr. Sul ➜ Amorinópolis</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Matriz de Despacho e Zonas Críticas (Cards com Revelação) -->
+    <section class="slide" id="slide-4">
+      <div class="slide-inner">
+        <h2 class="slide-title">Classificação das Zonas de Atendimento</h2>
+        <p class="slide-subtitle">
+          Clique nos blocos para apresentar as cidades conforme a criticidade de tempo de resposta.
+        </p>
+
+        <div class="zones-grid">
+          <!-- Zona 1: Verde -->
+          <div class="zone-card verde click-reveal-box">
+            <span class="reveal-hint-badge">👉 Clique para Apresentar</span>
+            <div class="zone-tag">Zona 1 — Baixa Latência (&lt; 30 km)</div>
+            <h3 style="font-size: 1.15rem; color: #fff; margin-bottom: 0.3rem;">Tempo Resposta: ~20 min</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Atendimento ágil com alta taxa de sobrevida.</p>
+
+            <div class="reveal-content">
+              <div class="zone-cities-list">
+                <div class="zone-city-item"><span>Amorinópolis</span><strong>28.0 km (~21 min)</strong></div>
+                <div class="zone-city-item"><span>Israelândia</span><strong>28.0 km (~21 min)</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zona 2: Amarela -->
+          <div class="zone-card amarela click-reveal-box">
+            <span class="reveal-hint-badge">👉 Clique para Apresentar</span>
+            <div class="zone-tag">Zona 2 — Atenção Moderada (30 a 75 km)</div>
+            <h3 style="font-size: 1.15rem; color: #fff; margin-bottom: 0.3rem;">Tempo Resposta: 30 a 55 min</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Depende de apoio local das bases USB.</p>
+
+            <div class="reveal-content">
+              <div class="zone-cities-list">
+                <div class="zone-city-item"><span>Jaupaci</span><strong>44.0 km (~33 min)</strong></div>
+                <div class="zone-city-item"><span>Ivolândia</span><strong>54.0 km (~41 min)</strong></div>
+                <div class="zone-city-item"><span>Fazenda Nova</span><strong>72.0 km (~54 min)</strong></div>
+                <div class="zone-city-item"><span>Moiporá</span><strong>73.0 km (~55 min)</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zona 3: Vermelha -->
+          <div class="zone-card vermelha click-reveal-box">
+            <span class="reveal-hint-badge">👉 Clique para Apresentar</span>
+            <div class="zone-tag">Zona 3 — Alta Criticidade (&gt; 75 km)</div>
+            <h3 style="font-size: 1.15rem; color: #fca5a5; margin-bottom: 0.3rem;">Tempo Resposta: &gt; 1 hora</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Risco elevado para parada e trauma severo.</p>
+
+            <div class="reveal-content">
+              <div class="zone-cities-list">
+                <div class="zone-city-item"><span style="color:#fca5a5;">Novo Brasil</span><strong>96.0 km (1h 12m)</strong></div>
+                <div class="zone-city-item"><span style="color:#fca5a5;">Córrego do Ouro</span><strong>104.0 km (1h 18m)</strong></div>
+                <div class="zone-city-item"><span style="color:#fca5a5;">Cachoeira de Goiás</span><strong>109.0 km (1h 22m)</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Recomendações Estratégicas (Cards com Revelação e Helicóptero) -->
+    <section class="slide" id="slide-5">
+      <div class="slide-inner">
+        <h2 class="slide-title">Recomendações Estratégicas para o SAMU</h2>
+        <p class="slide-subtitle">
+          Diretrizes práticas sugeridas pela equipe. Clique em cada ponto para detalhar.
+        </p>
+
+        <div class="recs-grid">
+          <!-- Card 1: Apoio Aeromédico com Botão Interativo -->
+          <div class="click-reveal-box">
+            <span class="reveal-hint-badge">👉 Clique para Apresentar</span>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚁</div>
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.4rem;">Apoio Aeromédico</h3>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Para municípios a mais de 90 km.</div>
+
+            <div class="reveal-content">
+              <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.45; margin-bottom: 0.75rem;">
+                Com tempos terrestres superiores a 1 hora, o acionamento de helicóptero para Novo Brasil, Córrego do Ouro e Cachoeira de Goiás é indispensável para viabilizar sobrevida.
+              </p>
+              <button class="btn-launch-heli" id="btn-launch-helicopter">
+                🚁 Acionar Helicóptero de Resgate
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Rendezvous -->
+          <div class="click-reveal-box">
+            <span class="reveal-hint-badge">👉 Clique para Apresentar</span>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.4rem;">Protocolo Rendezvous</h3>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Interceptação na rodovia.</div>
+
+            <div class="reveal-content">
+              <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.45;">
+                A USB local inicia o deslocamento com a vítima estabilizada e encontra a USA-01 de Iporá a meio caminho, economizando até 30 minutos vitais.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Gargalos Viários -->
+          <div class="click-reveal-box">
+            <span class="reveal-hint-badge">👉 Clique para Apresentar</span>
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚧</div>
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.4rem;">Eixos Rodoviários Críticos</h3>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Gargalos viários da microrregião.</div>
+
+            <div class="reveal-content">
+              <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.45;">
+                O Trevo de Israelândia e o Entroncamento GO-060 x GO-320 possuem alta centralidade de intermediação: qualquer bloqueio isola milhares de habitantes da UTI móvel.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Conclusão & Repositório -->
+    <section class="slide" id="slide-6">
+      <div class="slide-inner">
+        <h2 class="slide-title" style="font-size: 2.5rem;">Conclusão & Agradecimentos</h2>
+        <p class="slide-subtitle" style="margin-bottom: 1.8rem;">
+          A Teoria dos Grafos como instrumento científico para salvar vidas na saúde pública.
+        </p>
+
+        <div class="conclusion-box">
+          <div style="font-size: 2.2rem; margin-bottom: 0.6rem;">🎓</div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff;">Repositório do Trabalho Acadêmico</h3>
+          <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.4rem;">
+            Código em Python com o algoritmo Dijkstra da equipe, vault Obsidian e relatório em PDF:
+          </p>
+
+          <a href="https://github.com/jurcelinocsantos/Teoria-dos-Grafos-Projeto-Final" target="_blank" rel="noopener noreferrer" class="btn-fetch" style="text-decoration: none; font-size: 1rem; padding: 0.75rem 2.2rem;">
+            Acessar no GitHub ↗
+          </a>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <button class="btn-fetch" onclick="goToSlide(0)" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); font-size: 0.88rem;">
+            Voltar ao Início ↺
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Controls -->
+  <footer class="deck-controls">
+    <div class="slide-indicator" id="slide-indicator">Página 1 de 6</div>
+
+    <div class="dots-container" id="dots-container"></div>
+
+    <div class="nav-buttons">
+      <button class="btn-ctrl" id="btn-prev" title="Slide Anterior (←)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="btn-ctrl" id="btn-next" title="Próximo Slide (→)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+      <button class="btn-ctrl" id="btn-fullscreen" title="Tela Cheia (F)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+      </button>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1087 @@
+:root {
+  /* Cores Autênticas do SAMU 192 (Sem Roxo) */
+  --bg-color: #070d1e;
+  --bg-card: rgba(15, 23, 42, 0.88);
+  --bg-card-hover: rgba(30, 41, 59, 0.95);
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-glow: rgba(239, 68, 68, 0.4);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  
+  /* Paleta SAMU */
+  --samu-red: #ef4444;
+  --samu-red-dark: #b91c1c;
+  --samu-blue: #0284c7;
+  --samu-cyan: #38bdf8;
+  --samu-amber: #f59e0b;
+  --samu-emerald: #10b981;
+  
+  /* IF Goiano */
+  --if-green: #2e7d32;
+  --if-red: #c62828;
+  
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --transition-speed: 0.45s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  position: relative;
+}
+
+/* Fundo Ambiente com Cores do SAMU (Vermelho e Azul - ZERO ROXO) */
+.background-ambient {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob {
+  position: absolute;
+  filter: blur(140px);
+  opacity: 0.2;
+  border-radius: 50%;
+  animation: floatBlobs 24s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--samu-red-dark), transparent);
+  top: -12%;
+  left: -10%;
+}
+
+.blob-2 {
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, #0369a1, transparent);
+  bottom: -15%;
+  right: -10%;
+  animation-delay: -8s;
+}
+
+.blob-3 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.4), transparent);
+  top: 40%;
+  left: 60%;
+  animation-delay: -14s;
+}
+
+@keyframes floatBlobs {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.1); }
+  100% { transform: translate(-40px, -25px) scale(0.95); }
+}
+
+/* ==========================================================================
+   VIATURA LATERAL NA PISTA (CLIQUE ACENDE O GIROFLEX E TOCA ALERTA)
+   ========================================================================== */
+.vertical-road-track {
+  position: fixed;
+  left: 20px;
+  top: 75px;
+  bottom: 75px;
+  width: 14px;
+  border-left: 2px dashed rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: 50;
+}
+
+.page-switch-ambulance {
+  position: fixed;
+  left: 12px;
+  top: 50%;
+  width: 36px;
+  height: 52px;
+  z-index: 100;
+  cursor: pointer;
+  transition: top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.25s ease;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
+}
+
+.page-switch-ambulance:hover {
+  transform: scale(1.15);
+}
+
+.page-switch-ambulance.siren-on {
+  animation: ambRumble 0.15s infinite;
+}
+
+@keyframes ambRumble {
+  0% { transform: translate(0, 0) scale(1.15); }
+  25% { transform: translate(-1.5px, 1px) scale(1.15); }
+  50% { transform: translate(1.5px, -1px) scale(1.15); }
+  75% { transform: translate(-1px, -1.5px) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1.15); }
+}
+
+.beacon-strobe-left, .beacon-strobe-right {
+  position: absolute;
+  top: 0px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.beacon-strobe-left {
+  left: 10px;
+  background-color: var(--samu-red);
+}
+
+.beacon-strobe-right {
+  right: 10px;
+  background-color: var(--samu-blue);
+}
+
+.page-switch-ambulance.siren-on .beacon-strobe-left {
+  animation: strobeRed 0.16s infinite alternate;
+}
+
+.page-switch-ambulance.siren-on .beacon-strobe-right {
+  animation: strobeBlue 0.16s infinite alternate-reverse;
+}
+
+@keyframes strobeRed {
+  from { opacity: 0.2; box-shadow: none; }
+  to { opacity: 1; box-shadow: 0 0 14px 4px rgba(239, 68, 68, 0.95); }
+}
+
+@keyframes strobeBlue {
+  from { opacity: 0.2; box-shadow: none; }
+  to { opacity: 1; box-shadow: 0 0 14px 4px rgba(2, 132, 199, 0.95); }
+}
+
+.siren-tooltip {
+  position: absolute;
+  left: 45px;
+  top: 10px;
+  background: rgba(11, 15, 25, 0.92);
+  color: #fff;
+  border: 1px solid var(--samu-red);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.page-switch-ambulance:hover .siren-tooltip,
+.page-switch-ambulance.siren-on .siren-tooltip {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   AMBULÂNCIA LENTA CRUZANDO A TELA (SLIDE 2)
+   ========================================================================== */
+.ambulance-flyby-container {
+  position: fixed;
+  top: 38%;
+  left: 0;
+  width: 100vw;
+  height: 140px;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}
+
+.ambulance-flyby-container.animate {
+  display: block;
+}
+
+.flying-ambulance {
+  position: absolute;
+  left: -260px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: crossScreenSlow 5.5s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes crossScreenSlow {
+  0% { transform: translateX(0); opacity: 0; }
+  6% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 380px)); opacity: 0; }
+}
+
+.ambulance-svg {
+  width: 190px;
+  filter: drop-shadow(0 12px 25px rgba(0,0,0,0.6));
+}
+
+.ambulance-beacon {
+  width: 18px;
+  height: 10px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  animation: beaconBlink 0.35s infinite alternate ease-in-out;
+}
+
+@keyframes beaconBlink {
+  from { opacity: 0.35; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 16px currentColor); }
+}
+
+.ambulance-callout {
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 50px;
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(11, 15, 25, 0.92);
+  border: 1.5px solid #fff;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* ==========================================================================
+   HELICÓPTERO DE RESGATE AEROMÉDICO INTERATIVO (SLIDE 5)
+   ========================================================================== */
+.helicopter-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 13, 30, 0.65);
+  backdrop-filter: blur(6px);
+}
+
+.helicopter-overlay.active {
+  display: flex;
+  pointer-events: auto;
+}
+
+.helicopter-flight-box {
+  position: relative;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: heliLand 3s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes heliLand {
+  0% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
+  40% { transform: translateY(-40px) scale(1.08); opacity: 1; }
+  75% { transform: translateY(12px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.helicopter-svg-container {
+  width: 280px;
+  position: relative;
+}
+
+.heli-rotor {
+  transform-origin: 140px 38px;
+  animation: rotorSpin 0.08s linear infinite;
+}
+
+@keyframes rotorSpin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.heli-tail-rotor {
+  transform-origin: 22px 52px;
+  animation: tailSpin 0.05s linear infinite;
+}
+
+@keyframes tailSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.heli-spotlight {
+  width: 220px;
+  height: 120px;
+  background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.85), transparent 70%);
+  margin-top: -20px;
+  filter: blur(8px);
+  animation: spotlightPulse 0.4s infinite alternate;
+}
+
+@keyframes spotlightPulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+.heli-banner {
+  background: rgba(15, 23, 42, 0.95);
+  border: 2px solid var(--samu-red);
+  color: #fff;
+  padding: 1.1rem 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  margin-top: 15px;
+}
+
+.heli-banner h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.heli-banner p {
+  color: #cbd5e1;
+  font-size: 0.88rem;
+  margin: 0.4rem 0 1rem 0;
+}
+
+.btn-heli-close {
+  background: var(--samu-red);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  padding: 0.45rem 1.3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-heli-close:hover {
+  background: #b91c1c;
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   HEADER PERSISTENTE COM LOGO IF GOIANO NO CANTO SUPERIOR DIREITO
+   ========================================================================== */
+.deck-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-container {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  width: 100%;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--samu-emerald), var(--samu-amber), var(--samu-red));
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2.2rem;
+  background: rgba(8, 14, 30, 0.9);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, var(--samu-red), #b91c1c);
+  color: #fff;
+  font-size: 0.78rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+}
+
+.brand-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: #f1f5f9;
+}
+
+.header-page-number {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--samu-cyan);
+  letter-spacing: 0.05em;
+}
+
+/* Logo Oficial do IF Goiano Campus Iporá */
+.if-goiano-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.if-symbol {
+  width: 26px;
+  height: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 2.5px;
+}
+
+.if-dot {
+  border-radius: 2px;
+  background-color: var(--if-green);
+}
+
+.if-dot.red {
+  background-color: var(--if-red);
+  border-radius: 50%;
+}
+
+.if-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.if-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.if-subtitle {
+  font-size: 0.7rem;
+  color: #86efac;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   SLIDE DECK VIEWPORT (LAYOUT DE TELA CHEIA E ESPAÇOSO DO PADRÃO ANTIGO)
+   ========================================================================== */
+.slides-container {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5.2rem 3rem 4.8rem 3.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.97) translateY(15px);
+  transition: opacity var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1),
+              transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1),
+              visibility var(--transition-speed);
+  pointer-events: none;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+.slide-inner {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.slide-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+  background: linear-gradient(135deg, #ffffff 50%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.slide-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 780px;
+  line-height: 1.5;
+  margin-bottom: 1.8rem;
+}
+
+/* ==========================================================================
+   SISTEMA DE CARTÕES COM REVELAÇÃO POR CLIQUE
+   ========================================================================== */
+.click-reveal-box {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: 1.25rem;
+  padding: 1.5rem 1.8rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+
+.click-reveal-box:hover {
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.click-reveal-box .reveal-hint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 50px;
+  margin-bottom: 0.6rem;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  transition: all 0.25s;
+}
+
+.click-reveal-box.revealed .reveal-hint-badge {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.click-reveal-box .reveal-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.click-reveal-box.revealed .reveal-content {
+  max-height: 400px;
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+/* ==========================================================================
+   SLIDE 1: CAPA COM APENAS TÍTULO E OS 2 ALUNOS
+   ========================================================================== */
+.slide1-authors-grid {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2.8rem;
+  justify-content: center;
+}
+
+.student-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  padding: 1.8rem 2.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.student-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--samu-cyan);
+}
+
+.student-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--samu-blue), var(--samu-cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.student-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.student-tag {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   SLIDE 2: TRIAGEM E GARGALO OPERACIONAL
+   ========================================================================== */
+.slide2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 1.75rem;
+  width: 100%;
+  max-width: 1050px;
+  align-items: start;
+}
+
+.codes-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.code-btn {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.1rem 1.4rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  color: inherit;
+  outline: none;
+}
+
+.code-btn:hover {
+  transform: translateX(6px);
+}
+
+.code-btn.verde:hover { border-color: var(--samu-emerald); background: rgba(16, 185, 129, 0.1); }
+.code-btn.amarelo:hover { border-color: var(--samu-amber); background: rgba(245, 158, 11, 0.1); }
+.code-btn.vermelho:hover { border-color: var(--samu-red); background: rgba(239, 68, 68, 0.12); }
+
+.code-badge-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.verde .code-badge-circle { background: var(--samu-emerald); }
+.amarelo .code-badge-circle { background: var(--samu-amber); }
+.vermelho .code-badge-circle { background: var(--samu-red); box-shadow: 0 0 12px rgba(239, 68, 68, 0.4); }
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.metric-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+  text-align: center;
+}
+
+.metric-pill-num {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--samu-cyan);
+}
+
+.metric-pill-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   SLIDE 3: SIMULADOR DO GRAFO & DESPACHO EM TEMPO REAL (CANVAS)
+   ========================================================================== */
+.graph-simulator-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.4rem;
+  width: 100%;
+  max-width: 1080px;
+  height: 470px;
+}
+
+.canvas-container {
+  position: relative;
+  background: rgba(11, 18, 33, 0.95);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+#graphCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.canvas-overlay-tip {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  pointer-events: none;
+}
+
+.dispatch-hud {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  margin-top: 0.6rem;
+  text-align: left;
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: #e2e8f0;
+  margin-bottom: 0.3rem;
+}
+
+.simulator-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: left;
+}
+
+.city-select-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 0.9rem 1.1rem;
+}
+
+.custom-select {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.route-result-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stat-huge {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  margin: 0.35rem 0;
+}
+
+.badge-risk {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-risk.baixo { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.badge-risk.medio { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.badge-risk.alto  { background: rgba(239, 68, 68, 0.25); color: #f87171; }
+
+/* ==========================================================================
+   SLIDE 4: MATRIZ DE DESPACHO E ZONAS DE CRITICIDADE
+   ========================================================================== */
+.zones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  width: 100%;
+  max-width: 1050px;
+}
+
+.zone-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: 1.15rem;
+  padding: 1.4rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.zone-card:hover {
+  transform: translateY(-4px);
+}
+
+.zone-card.verde { border-top: 4px solid var(--samu-emerald); }
+.zone-card.amarela { border-top: 4px solid var(--samu-amber); }
+.zone-card.vermelha { border-top: 4px solid var(--samu-red); background: rgba(239, 68, 68, 0.05); }
+
+.zone-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.verde .zone-tag { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.amarela .zone-tag { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.vermelha .zone-tag { background: rgba(239, 68, 68, 0.25); color: #f87171; }
+
+.zone-cities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.zone-city-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   SLIDE 5: RECOMENDAÇÕES E BOTÃO DE HELICÓPTERO
+   ========================================================================== */
+.recs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  width: 100%;
+  max-width: 1050px;
+}
+
+.btn-launch-heli {
+  background: var(--samu-red);
+  color: #fff;
+  border: none;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.35);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-launch-heli:hover {
+  background: #dc2626;
+  transform: scale(1.04);
+}
+
+/* ==========================================================================
+   SLIDE 6: CONCLUSÃO & GITHUB
+   ========================================================================== */
+.conclusion-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  padding: 2.2rem;
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-fetch {
+  background: linear-gradient(135deg, var(--samu-red), var(--samu-red-dark));
+  border: none;
+  outline: none;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.7rem 1.6rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-fetch:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.4);
+}
+
+/* ==========================================================================
+   CONTROLES INFERIORES
+   ========================================================================== */
+.deck-controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2.2rem;
+  background: rgba(8, 14, 30, 0.92);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border-color);
+}
+
+.slide-indicator {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.dots-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  width: 26px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--samu-emerald), var(--samu-red));
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn-ctrl {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-ctrl:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(1.05);
+}
+
+.btn-ctrl:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .slide-title { font-size: 2rem; }
+  .slide1-authors-grid { flex-direction: column; gap: 1rem; }
+  .slide2-grid { grid-template-columns: 1fr; }
+  .graph-simulator-wrapper { grid-template-columns: 1fr; height: auto; }
+  .canvas-container { height: 300px; }
+  .zones-grid { grid-template-columns: 1fr; }
+  .recs-grid { grid-template-columns: 1fr; }
+  .vertical-road-track { display: none; }
+}
